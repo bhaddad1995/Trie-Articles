@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "build": "javac triesLab.java",
+        "start": "java triesLab"
+    }
+}
