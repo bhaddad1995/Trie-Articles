@@ -15,6 +15,8 @@ class trieNode{
 
     }
 
+    public String input = "";
+
     trieNode(char l){
         this.letter = l;
     }
@@ -60,6 +62,29 @@ class trieNode{
         }
         return subNodes.get(index);
     }
+
+
+    public void loadFile(){
+        HashMap<String, String[]> companies = new HashMap<>();
+        String[] splitNameSyn;
+        String[] splitSyns;
+        String compName = "";
+        String syn = "";
+        String curr = "";
+        try(BufferedReader br = new BufferedReader(new FileReader("/Users/Andy/IdeaProjects/triesLab/src/companies.dat"))) {
+            for(String line; (line = br.readLine()) != null; ) {
+                splitNameSyn = line.split("    ");
+                compName = splitNameSyn[0];
+                splitSyns = splitNameSyn[1].split(" ");
+                companies.put(compName,splitSyns);
+            }
+        } catch (IOException i) {
+            System.err.print("Error loading file with exception:\n"+i);
+            i.printStackTrace();
+            System.exit(0);
+        }
+    }
+
 
     public trieNode searchSubNodes(char let){
         int numSubNodes = subNodes.size();
@@ -107,6 +132,8 @@ class trieNode{
 
 }
 
+
+
 class trie{
 
     public trieNode root = new trieNode();
@@ -119,35 +146,35 @@ class trie{
         root.printTrieLevels();
     }
 
-    // public void printLeafNodes(treeNode root) 
-    // { 
-    //     // if node is null, return 
-    //     if (root == null){ 
+    // public void printLeafNodes(treeNode root)
+    // {
+    //     // if node is null, return
+    //     if (root == null){
     //         return;
     //     }
-        
-    //     // if node is leaf node, print its data     
-    //     if (root.getSubNodes().size() == 0){ 
-    //         System.out.println("Leaf node " + root.getLetter() + " with weight of " + root.getValue() + "and huff code " + huffCode);  
-    //         return; 
-    //     } 
-    
-    //     // if left child exists, check for leaf  
-    //     // recursively 
+
+    //     // if node is leaf node, print its data
+    //     if (root.getSubNodes().size() == 0){
+    //         System.out.println("Leaf node " + root.getLetter() + " with weight of " + root.getValue() + "and huff code " + huffCode);
+    //         return;
+    //     }
+
+    //     // if left child exists, check for leaf
+    //     // recursively
     //     if (root.getLeftChild() != null){
     //         huffCode = huffCode + "0";
     //         printLeafNodes(root.getLeftChild());
     //         huffCode = huffCode.substring(0,huffCode.length()-1);
     //     }
-            
-    //     // if right child exists, check for leaf  
-    //     // recursively 
-    //     if (root.getRightChild() != null){ 
+
+    //     // if right child exists, check for leaf
+    //     // recursively
+    //     if (root.getRightChild() != null){
     //         huffCode = huffCode + "1";
     //         printLeafNodes(root.getRightChild());
-    //         huffCode = huffCode.substring(0,huffCode.length()-1); 
+    //         huffCode = huffCode.substring(0,huffCode.length()-1);
     //     }
-    // }  
+    // }
 
 
 }
@@ -157,11 +184,16 @@ class triesLab{
     public String input = "";
     public static void main(String[] args){
         triesLab trieObj = new triesLab();
-        trieObj.createTrie();
+        //trieObj.createTrie();
+        trieNode trie = new trieNode();
+        trie.loadFile();
+
+
+
     }
 
 
-    public void loadFile(){
+   /* public void loadFile(){
         try {
             String x;
             FileReader fileIn = new FileReader("company.dat");
@@ -174,11 +206,11 @@ class triesLab{
             in.close();
             fileIn.close();
 
-         } catch (IOException i) {
+        } catch (IOException i) {
             System.err.print("Error loading game with exception:\n"+i);
             i.printStackTrace();
             System.exit(0);
-         }
+        }
     }
 
     public String formatInput(String s){
@@ -191,7 +223,8 @@ class triesLab{
             }
         }
         return formattedInput;
-    }
+    }*/
+
 
     public void createTrie(){
         trie trieObj = new trie();
